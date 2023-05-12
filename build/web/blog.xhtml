@@ -1,0 +1,101 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="mainTemplate.xhtml">
+
+    <ui:define name="content">
+
+        <p:panel header="Gestión de Blogs" class="shadow-4">            
+            <div class="p-4">
+                <!-- growl sirve para los alerts tipo toastr -->
+                <h:form class="mb-4">
+                    <p:growl id="growl" showDetail="true" life="3000">
+                        <p:autoUpdate />
+                    </p:growl>
+                </h:form>
+
+                <h:form class="mb-4">
+                    <p:commandButton icon="pi pi-plus" value="Nuevo" actionListener="#{blogController.limpiar()}" oncomplete="PF('dialogoAgregar').show();" update=":formAgregar"/>
+                    <p:separator/>
+                </h:form>
+
+                <h:form id="formListado">
+                    <p:dataTable id="tabla" 
+                                 paginator="true" 
+                                 paginatorPosition="bottom" 
+                                 rows="10" 
+                                 var="blog" 
+                                 value="#{blogController.listaBlog}" 
+                                 emptyMessage="No se han encontrado datos"
+                                 resizableColumns="true"
+                                 showGridlines="true"
+                                 reflow="true"
+                                 scrollable="true" 
+                                 scrollHeight="400"
+                                 allowUnsorting="true" 
+                                 sortMode="single"
+                                 stripedRows="true"
+                                 rowsPerPageTemplate="10,20,50,100,{ShowAll|'All'}">
+                        <f:facet name="header">
+                            <p:commandButton id="toggler" type="button" styleClass="rounded-button ui-button-secondary ui-button-flat" icon="pi pi-ellipsis-v"/>
+                            <p:columnToggler datasource="tabla" trigger="toggler">
+                                <p:ajax />
+                            </p:columnToggler>
+                        </f:facet>
+                        <p:column headerText="ID" sortBy="#{blog.id}" filterBy="#{blog.id}" filterMatchMode="contains">
+                            <h:outputText value="#{blog.id}" />
+                        </p:column>
+                        <p:column headerText="Titulo" sortBy="#{blog.title}" filterBy="#{blog.title}" filterMatchMode="contains">
+                            <h:outputText value="#{blog.title}" />
+                        </p:column>
+                        <p:column headerText="Opciones">
+                            <p:commandButton icon="pi pi-pencil" title="Modificar" oncomplete="PF('dialogoModificar').show();" update=":formModificar" styleClass="mr-1 ui-button-success rounded-button">
+                                <f:setPropertyActionListener target="#{blogController.blog}" value="#{blog}"/>
+                            </p:commandButton>
+                            <p:commandButton icon="pi pi-trash" title="Eliminar" oncomplete="PF('dialogoEliminar').show();" update=":formEliminar" styleClass="ui-button-danger rounded-button">
+                                <f:setPropertyActionListener target="#{blogController.blog}" value="#{blog}"/>
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+            </div>
+        </p:panel>
+    </ui:define>
+    
+    <ui:define name="modals">
+        <h:form id="formAgregar">
+            <p:dialog id="dlgAgregar" header="Agregar" widgetVar="dialogoAgregar" resizable="false" showEffect="fade" hideEffect="explode" minimizable="true" maximizable="true">
+                <p:panelGrid columns="2">                                
+                    <p:outputLabel value="Titulo:"/>
+                    <p:inputText value="#{blogController.blog.title}"/>
+                </p:panelGrid>
+                <p:separator/>
+                <p:commandButton value="Guardar" styleClass="mr-1" actionListener="#{blogController.guardar()}" update=":formListado:tabla" oncomplete="PF('dialogoAgregar').hide();"/>
+                <p:commandButton value="Cancelar" styleClass="ui-button-secondary" onclick="PF('dialogoAgregar').hide();"/>
+            </p:dialog>
+        </h:form>
+
+        <h:form id="formModificar">
+            <p:dialog id="dlgModificar" header="Modificar" widgetVar="dialogoModificar" resizable="false" showEffect="fade" hideEffect="explode" minimizable="true" maximizable="true">
+                <p:panelGrid columns="2">                                
+                    <p:outputLabel value="Titulo"/>
+                    <p:inputText value="#{blogController.blog.title}"/>
+                </p:panelGrid>
+                <p:separator/>
+                <p:commandButton value="Guardar" styleClass="mr-1 ui-button-success" actionListener="#{blogController.modificar()}" update=":formListado:tabla" oncomplete="PF('dialogoModificar').hide();"/>
+                <p:commandButton value="Cancelar" styleClass="ui-button-secondary" onclick="PF('dialogoModificar').hide();"/>
+            </p:dialog>
+        </h:form>
+
+        <h:form id="formEliminar">
+            <p:dialog id="dlgEliminar" header="Eliminar" widgetVar="dialogoEliminar" resizable="false" showEffect="fade" hideEffect="explode" modal="true">
+                <h3>¿Desea eliminar este registro?</h3>
+                <p:separator/>
+                <p:commandButton value="Si" styleClass="mr-1 ui-button-danger" actionListener="#{blogController.eliminar()}" update=":formListado:tabla" oncomplete="PF('dialogoEliminar').hide();"/>
+                <p:commandButton value="No" styleClass="ui-button-secondary" onclick="PF('dialogoEliminar').hide();"/>
+            </p:dialog>
+        </h:form>
+    </ui:define>
+</ui:composition>

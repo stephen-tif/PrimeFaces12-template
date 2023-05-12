@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <title>Sidebar template</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"/>
+        <link href="resources/css/dashboard.css" rel="stylesheet" type="text/css"/>
+        
+        <link rel="stylesheet" href="https://unpkg.com/primeflex@^3/primeflex.css"/>
+        
+        <f:event type="preRenderView" listener="#{baseController.verificarSesion()}"/>
+    </h:head>
+    <h:body>
+        <div class="page-wrapper chiller-theme toggled">
+
+            <p:button id="show-sidebar" icon="pi pi-bars" styleClass="rounded-button ui-button-secondary ui-button-flat bg-white shadow-4 p-4" onclick="return"/>
+
+            <nav id="sidebar" class="sidebar-wrapper shadow-6">
+                <div class="sidebar-content">
+                    <div class="sidebar-brand">
+                        <a>Admin TIF</a>
+                        <p:button id="close-sidebar" icon="pi pi-times" styleClass="rounded-button ui-button-secondary ui-button-flat" onclick="return"/>
+                    </div>
+                    <div class="sidebar-menu">
+                        <h:form>
+                            <p:menu class="w-100 mb-8" toggleable="true">
+                                <p:menuitem value="Principal" icon="pi pi-save" url="./principal.xhtml"/>
+
+                                <p:submenu label="Mantenimientos">
+                                    <p:menuitem value="Readers" icon="pi pi-save" url="./reader.xhtml" class="py-2"/>
+                                    <p:menuitem value="Blogs" icon="pi pi-save" url="./blog.xhtml" class="py-2"/>
+                                    <p:menuitem value="Readers por blog" icon="pi pi-save" url="./blog_reader.xhtml" class="py-2"/>
+                                </p:submenu>
+
+                            </p:menu>
+                        </h:form>
+
+                    </div>
+                    <!-- sidebar-menu  -->
+                </div>
+                <!-- sidebar-content  -->
+            </nav>
+            <!-- sidebar-wrapper  -->
+            <main class="page-content">
+
+                <!--navbar-->
+                    <h:form>
+                        <p:menubar class="w-100 text-right">
+                            
+                            <p:divider layout="vertical"/>
+                            <p:menuitem icon="pi pi-fw pi-power-off" actionListener="#{baseController.cerrarSesion()}" 
+                                        value="Cerrar sesión" action="./login?faces-redirect=true"/>
+                        </p:menubar>
+                    </h:form>
+                <!--navbar end-->
+
+                <!--CONTENT-->
+                <div class="container-fluid">
+                    <ui:insert name="content"></ui:insert>
+                </div>
+
+            </main>
+            <!-- page-content" -->
+        </div>
+        <!-- page-wrapper -->
+
+        <script src="resources/js/dashboard.js" type="text/javascript"></script>
+        <ui:insert name="modals"></ui:insert>
+    </h:body>
+</html>
+

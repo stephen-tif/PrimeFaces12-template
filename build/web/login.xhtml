@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Login</title>
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <link rel="stylesheet" href="https://unpkg.com/primeflex@^3/primeflex.css"/>
+
+        <style>
+            body{
+                background-color: #f0f2f5!important;
+            }
+        </style>
+    </h:head>
+    <h:body>
+        <h:form>        
+            <p:growl id="growl" showDetail="true" life="2000">
+                <p:autoUpdate />
+            </p:growl>
+
+
+            <p:panelGrid columns="1" layout="flex" contentStyleClass="ui-fluid py-4 px-6 shadow-4 bg-white" style="width: 500px; margin:10% auto auto auto;">
+                <f:facet name="header">
+                    <h3>Inicio de sesión</h3>
+                </f:facet> 
+
+                <h:outputLabel for="username" value="Usuario:" />
+                <p:inputText id="username" value="#{baseController.usuario.usuario}" required="true" label="username" />
+
+                <h:outputLabel for="password" value="Contraseña:" />
+                <p:password id="password" value="#{baseController.usuario.clave}" required="true" label="password" toggleMask="true" redisplay="true" style="width: 100%"/>
+
+                <p:commandButton value="Enviar" update="growl" action="#{baseController.iniciarSesion()}"/>
+
+                <p:commandLink value="Olvidaste tu contraseña?" update="growl" class="mx-auto"/>
+
+            </p:panelGrid>
+        </h:form>
+    </h:body>
+</html>
+
