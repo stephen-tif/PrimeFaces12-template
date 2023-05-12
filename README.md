@@ -30,8 +30,8 @@ manejo de sesiones de seguridad, persistencia de datos y diseños responsive par
 
 Descarga de proyecto con git
 ```sh
-git clone https://github.com/stephen-tif/pruebaTecnicaBandesalJava.git
-cd pruebaTecnicaBandesalJava
+git clone https://github.com/stephen-tif/PrimeFaces12-template.git
+cd PrimeFaces12-template
 git checkout master
 ```
 
